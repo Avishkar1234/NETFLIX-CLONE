@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
     serachHistory: {
         type: Array,
         default: [],
-    }
-})
+    },
+});
 
 export const User = mongoose.model('User', userSchema); //users
