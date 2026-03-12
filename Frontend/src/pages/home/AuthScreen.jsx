@@ -65,6 +65,48 @@ const AuthScreen = () => {
                 </div>
             </div>
         </div>
+
+        {/* separator  */}
+        <div className="h-2 w-full bg-[#232323]" aria-hidden='true' />
+
+        {/* 2nd section */}
+
+        <div className="text-white bg-black py-10">
+          <div className="flex max-w-6xl mx-auto items-center justify-center md:flex-row flex-col px-4 md:px-2 gap-4">
+
+            {/* left section */}
+            <div className="flex-1 relative">
+              <div className="relative">
+                <img src="stranger-things-lg.png" alt="Stranger things image" className="mt-4" />
+
+                <div className="absolute flex items-center justify-center bottom-5 left-1/2 -translate-x-1/2 bg-black w-3/4 lg:w-1/2 h-24 border border-slate-500 rounded-md px-2">
+
+                  <img src="stranger-things-sm.png" alt="Stranger things small image" className="h-full" />
+
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex flex-col">
+                      <span className="text-md lg:text-lg font-bold">Stranger Things</span>
+                      <span className="text-sm text-blue-500">Downloading...</span>
+                    </div>
+
+                    <img src="/download-icon.gif" alt="download gif" className="h-12" />
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            {/* right section */}
+            <div className="flex-1 font-extrabold">
+              <h2 className="text-4xl mb-4">Download your shows to watch offline</h2>
+              <p className="text-lg">
+                Save your favorites easily and always have something to watch.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
     </div>
   )
 }
