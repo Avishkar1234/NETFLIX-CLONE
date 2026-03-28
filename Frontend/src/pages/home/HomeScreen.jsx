@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import Navbar from "../../../components/Navbar";
 import { Info, Play } from "lucide-react";
 import useGetTrendingContent from "../../hooks/useGetTrendingContent";
-import { ORIGINAL_IMG_BASE_URL } from "../../utils/constants";
+import { MOVIE_CATEGORIES, ORIGINAL_IMG_BASE_URL, TV_CATEGORIES } from "../../utils/constants";
+import { useContentStore } from "../../store/content";
+import MovieSlider from "../../../components/MovieSlider";
 
 const HomeScreen = () => {
   const { trendingContent } = useGetTrendingContent();
-  console.log("Trending Content: " ,trendingContent);
+  const { contentType } = useContentStore();
 
   if(!trendingContent) return (
     <div className="h-screen text-white relative">
@@ -77,6 +79,14 @@ const HomeScreen = () => {
         </div>
 
         </div>
+      </div>
+
+      <div className="flex flex-col gap-10 bg-black py-10">
+          {contentType === "movie" ? (
+            MOVIE_CATEGORIES.map((category) => <MovieSlider key={category} category={category} />)
+          ): (
+            TV_CATEGORIES.map((category) => <MovieSlider key={category} category={category} /> )
+          )}
       </div>
     </>
   )
