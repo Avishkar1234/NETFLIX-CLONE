@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { useContentStore } from '../store/content';
 import axios from 'axios';
@@ -6,14 +6,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import ReactPlayer from 'react-player';
 import { ORIGINAL_IMG_BASE_URL, SMALL_IMG_BASE_URL } from '../utils/constants';
+import { formatReleaseDate } from '../utils/dateFunction';
+import WatchPageSkeleton from '../../components/skeletons/WatchPageSkeleton';
 
-function formatReleaseDate(date) {
-    return new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
-}
 
 const WatchPage = () => {
     const { id } = useParams();
@@ -93,6 +88,25 @@ const WatchPage = () => {
         if (sliderRef.current) sliderRef.current.scrollBy({ left: sliderRef.current.offsetWidth, behavior: "smooth" })
     }
 
+    if (loading) return (
+        <div className='min-h-screen bg-black p-10'>
+            <WatchPageSkeleton />
+        </div>
+    )
+
+    if(content === null) {
+        return (
+            <div className='bg-black text-white h-screen'>
+                <div className='max-w-6xl mx-auto'>
+                    <Navbar />
+                    <div className='text-center mx-auto px-4 py-8 h-full mt-40'>
+                        <h2 className='text-2xl sm:text-5xl font-bold text-balance'>Content not found 😢</h2>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
   return <div className='bg-black min-h-screen text-white'>
     <div className='mx-auto container px-4 py-8 h-full'>
         <Navbar />
@@ -132,7 +146,7 @@ const WatchPage = () => {
                 />
             )}
 
-            {trailers?.length === 0 && (
+            {!loading && trailers?.length === 0 && (
                 <h2 className='text-xl text-center mt-5'>
                     No trailers available for{" "}
                     <span className='font-bold text-red-600'>{content?.title || content?.name}</span> 😢
@@ -159,7 +173,7 @@ const WatchPage = () => {
 
                     <p className='mt-4 text-lg'>{content?.overview}</p>
                 </div>
-                <img src={ORIGINAL_IMG_BASE_URL + content.poster_path} alt="Poster Image"
+                <img src={ORIGINAL_IMG_BASE_URL + content?.poster_path} alt="Poster Image"
                     className='max-h-150 rounded-md'
                 />
             </div>
@@ -171,7 +185,10 @@ const WatchPage = () => {
                     </h3>
 
                     <div className='flex overflow-x-scroll hide-scrollbar gap-4 pb-4 group' ref={sliderRef}>
-                        {similarContent.map((content) => (
+                        {similarContent.map((content) => {
+                            if(content.poster_path === null) return null;
+
+                            return (
                             <Link key={content.id} to={`watch/${content.id}`}
                                 className='w-52 flex-none'
                             >
@@ -181,7 +198,8 @@ const WatchPage = () => {
                                 <h4 className='mt-2 text-lg font-semibold'>{content.title || content.name}</h4>
 
                             </Link>
-                        ))}
+                          );
+                        })}
 
                         <ChevronLeft
                             className='absolute top-1/2 -translate-y-1/2 left-2 w-8 h-8 
