@@ -26,7 +26,7 @@ const WatchPage = () => {
             try {
                 const res = await axios.get(`/api/v1/${contentType}/${id}/trailers`);
                 setTrailers(res.data.trailers);
-                console.log("Trailers: ", res.data.trailers);
+                ("Trailers: ", res.data.trailers);
             } catch (error) {
                 if (error.message.includes('404')) {
                     setTrailers([]);
