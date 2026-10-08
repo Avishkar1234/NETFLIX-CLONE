@@ -189,7 +189,7 @@ const WatchPage = () => {
                             if(content.poster_path === null) return null;
 
                             return (
-                            <Link key={content.id} to={`watch/${content.id}`}
+                            <Link key={content.id} to={`/watch/${content.id}`}
                                 className='w-52 flex-none'
                             >
                                 <img src={SMALL_IMG_BASE_URL+content.poster_path} alt="Poster path" 
